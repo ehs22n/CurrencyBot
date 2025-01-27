@@ -7,9 +7,11 @@
 
  کتابخانه های مورد نیاز:
  کتابخانه pyTelegramBotApi برای وصل شدن به api تلگرام:
+ 
  ```pip install pyTelegramBotApi```
 
  کتابخانه BeautifulSoup برای استخراج داده از وب:
+ 
  ```pip install bs4```
  
 
