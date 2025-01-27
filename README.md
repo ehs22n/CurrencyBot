@@ -13,7 +13,7 @@
 
  کتابخانه BeautifulSoup برای استخراج داده از وب:
  
- ```pip install bs4```
+ ```pip install beautifulsoup4```
 
 
 
