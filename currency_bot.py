@@ -102,9 +102,9 @@ def help(msg):
 # SUPPORT COMMAND
 @bot.message_handler(commands=["support"])
 def support(msg):
-    email = 'ehs22nn@gmail.com'
-    dev = '@ehs22n'
-    bot.send_message(msg.chat.id, f'ارتباط با ما \n email: {email} \n developer :{dev}')
+    email = 'YOUR_EMAIL'
+    admin = 'YOUR_USERNAME'
+    bot.send_message(msg.chat.id, f'ارتباط با ما \n email: {email} \n developer :{admin}')
 
 @bot.message_handler(commands=['proxy'])
 def proxy(msg):
