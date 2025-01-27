@@ -6,6 +6,7 @@
  *توکن خود را در قسمت YOUR_TOKEN جایگذاری کنید*
 
  کتابخانه های مورد نیاز:
+ 
  کتابخانه pyTelegramBotApi برای وصل شدن به api تلگرام:
  
  ```pip install pyTelegramBotApi```
