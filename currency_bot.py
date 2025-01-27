@@ -54,11 +54,12 @@ combind.add(currency_btn1, currency_btn, glass_button)
 @bot.message_handler(commands=['start'])
 def start(msg):
     try:
+        username = message.from_user.username if message.from_user.username else 'unknown'
         conn = sqlite3.connect('currency.db' , check_same_thread=False)
         cursor = conn.cursor()
         cursor.execute('''INSERT INTO currency (chatid,username,firstname)
                        VALUES(?,?,?)
-''',(msg.from_user.id,msg.from_user.username,msg.from_user.first_name))
+''',(msg.from_user.id,username,msg.from_user.first_name))
   
         conn.commit()
         conn.close()
