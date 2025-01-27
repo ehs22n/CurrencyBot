@@ -1,12 +1,23 @@
 import telebot
 import requests
 from bs4 import BeautifulSoup
+import sqlite3
 
 
 token = 'YOUR_TOKEN'
 bot = telebot.TeleBot(token)
 
-    
+conn = sqlite3.connect('currency.db' , check_same_thread=False)
+cursor = conn.cursor()
+cursor.execute('''CREATE TABLE IF NOT EXISTS currency (
+               chatid INTEGER ,
+               username TEXT ,
+               firstname TEXT
+               );
+''')
+  
+conn.commit()
+conn.close()
 
 # _____________________
 # REPLY BUTTON
@@ -37,23 +48,32 @@ keyboard2.add(glass_button2, glass_button1, glass_button)
 combind = telebot.types.InlineKeyboardMarkup(row_width=1)
 combind.add(currency_btn1, currency_btn, glass_button)
 
-chat_ids =[]
 
 
 # START COMMAND
 @bot.message_handler(commands=['start'])
 def start(msg):
-    bot.reply_to(msg,
+    try:
+        conn = sqlite3.connect('currency.db' , check_same_thread=False)
+        cursor = conn.cursor()
+        cursor.execute('''INSERT INTO currency (chatid,username,firstname)
+                       VALUES(?,?,?)
+''',(msg.from_user.id,msg.from_user.username,msg.from_user.first_name))
+  
+        conn.commit()
+        conn.close()
+        
+
+        bot.reply_to(msg,
                  'به ربات قیمت لحظه ای رمز ارز خوش آمدید,\nبرای مشاهده ارزهای دیجیتال دستور /currency را وارد کنید \n  برای قیمت واحد های پول دستور /money را وارد کنید',
                  reply_markup=keyboard2)
-    member_id=msg.chat.id
-    chat =[member_id]
-    if chat not in chat_ids:
-        chat_ids.append(chat)
-        with open('chat_id.txt',"w") as f:
-            f.write(f'{chat_ids}')
-            f.close()
-    else:pass
+    except:
+        bot.reply_to(msg,
+                 'به ربات قیمت لحظه ای رمز ارز خوش آمدید,\nبرای مشاهده ارزهای دیجیتال دستور /currency را وارد کنید \n  برای قیمت واحد های پول دستور /money را وارد کنید',
+                 reply_markup=keyboard2)
+        
+
+
 # SUPPORT US COMMAND
 @bot.message_handler(commands=['supportus'])
 def support_us(msg):
@@ -102,9 +122,9 @@ def help(msg):
 # SUPPORT COMMAND
 @bot.message_handler(commands=["support"])
 def support(msg):
-    email = 'YOUR_EMAIL'
-    admin = 'YOUR_USERNAME'
-    bot.send_message(msg.chat.id, f'ارتباط با ما \n email: {email} \n developer :{admin}')
+    email = 'YOUR_EMAIL@gmail.com'
+    admin = '@YOUR_USERNAME'
+    bot.send_message(msg.chat.id, f'ارتباط با ما \n email: {email} \n admin :{admin}')
 
 @bot.message_handler(commands=['proxy'])
 def proxy(msg):
@@ -259,5 +279,5 @@ def digital_currency(msg):
     except:
         pass
 
-
+print("bot is running...")
 bot.infinity_polling()
